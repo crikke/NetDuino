@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDuino", "NetDuino\NetDuino.csproj", "{7F2CEAC2-E796-444D-BC9A-E046C20AEA60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDuino.Tests", "NetDuino.Tests\NetDuino.Tests.csproj", "{673DB581-5C0F-49D6-A205-47FBF8EA573B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F2CEAC2-E796-444D-BC9A-E046C20AEA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2CEAC2-E796-444D-BC9A-E046C20AEA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2CEAC2-E796-444D-BC9A-E046C20AEA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2CEAC2-E796-444D-BC9A-E046C20AEA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{673DB581-5C0F-49D6-A205-47FBF8EA573B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{673DB581-5C0F-49D6-A205-47FBF8EA573B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{673DB581-5C0F-49D6-A205-47FBF8EA573B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{673DB581-5C0F-49D6-A205-47FBF8EA573B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42CCEC9F-AE22-4FFB-BC62-5FB88BEB6516}
+	EndGlobalSection
+EndGlobal
