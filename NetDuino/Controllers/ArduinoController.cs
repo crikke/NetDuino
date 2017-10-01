@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace NetDuino.Controllers
 {
-    public class ArduinoController : Controller
+    public class ArduinoController : AsyncController
     {
         ApplicationDbContext context = new ApplicationDbContext();
         ApplicationUserManager _userManager;
@@ -26,6 +27,14 @@ namespace NetDuino.Controllers
             return View();
         }
 
+        // GET: Arduino/{Name}
+        public ActionResult Arduino(string name)
+        {
+            var duino = context.Arduinos.Where(u => u.UserID == User.Identity.GetUserId<int>() && u.Name == name);
+
+            return View(duino);
+        }
+
         // GET: Arduino/Create
         public ActionResult Create()
         {
@@ -34,16 +43,24 @@ namespace NetDuino.Controllers
 
         // POST: Arduino/Create
         [HttpPost]
-        public  ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(FormCollection collection)
         {
             try
             {
                 if(User.Identity.IsAuthenticated)
                 {
+                    var rand = Helper.Helper.GenerateString(20);
+
+                    while(context.Arduinos.Any(x => x.AuthKey == rand))
+                    {
+                        // ugly as fuck but yeah...
+                        rand = Helper.Helper.GenerateString(20);
+                    }
+
                     var model = new ArduinoModel()
                     {
-                        AuthKey = Guid.NewGuid().ToString(),
-                        User = _userManager.FindById(User.Identity.GetUserId()),
+                        AuthKey = rand,
+                        User = await _userManager.FindByIdAsync(User.Identity.GetUserId()),
                         Name = collection["name"]
                     };
 
@@ -86,6 +103,8 @@ namespace NetDuino.Controllers
         {
             return View();
         }
+
+
 
         // POST: Arduino/Delete/5
         [HttpPost]

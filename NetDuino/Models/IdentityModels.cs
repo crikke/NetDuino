@@ -34,6 +34,6 @@ namespace NetDuino.Models
         }
 
         public DbSet<ArduinoModel> Arduinos { get; set; }
-        public DbSet<ArduinoComponentModel> Components { get; set; }
+        public DbSet<ComponentModel> Components { get; set; }
     }
 }

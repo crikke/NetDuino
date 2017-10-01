@@ -15,7 +15,7 @@ namespace NetDuino.Models
         public string Name { get; set; }
         public string AuthKey { get; set; }
 
-        public ICollection<ArduinoComponentModel> Components { get; set; }
+        public ICollection<ComponentModel> Components { get; set; }
 
         [Required]
         public int UserID { get; set; }

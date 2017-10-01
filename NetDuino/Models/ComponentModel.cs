@@ -6,7 +6,7 @@ using System.Web;
 
 namespace NetDuino.Models
 {
-    public class ArduinoComponentModel
+    public class ComponentModel
     {
         public int ID { get; set; }
         // Port on the arduino
@@ -14,7 +14,7 @@ namespace NetDuino.Models
         // name for displaying on the interface
         public string ComponentName { get; set; }
         public string Value { get; set; }
-        +public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; }
 
         [Required]
         public int ArduinoID { get; set; }
