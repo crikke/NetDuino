@@ -1,0 +1,15 @@
+﻿@model NetDuino.Models.ArduinoViewModel
+
+@{
+    ViewBag.Title = "Arduino";
+}
+
+<h2>Arduino</h2>
+
+<h1>@Model.Arduino.Name</h1>
+@foreach (var item in Model.Components)
+{
+    <p>@item.ComponentName</p>
+    <p>@item.Arduino.Name</p>
+}
+

@@ -17,8 +17,7 @@ namespace NetDuino.Models
 
         public ICollection<ComponentModel> Components { get; set; }
 
-        [Required]
-        public int UserID { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

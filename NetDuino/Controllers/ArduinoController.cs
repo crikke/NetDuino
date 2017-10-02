@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using NetDuino.Models;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,20 @@ namespace NetDuino.Controllers
 {
     public class ArduinoController : AsyncController
     {
-        ApplicationDbContext context = new ApplicationDbContext();
-        ApplicationUserManager _userManager;
+        /// <summary>
+        /// Application DB context
+        /// </summary>
+        protected ApplicationDbContext ApplicationDbContext { get; set; }
 
-        public ArduinoController(ApplicationUserManager userManager)
+        /// <summary>
+        /// User manager - attached to application DB context
+        /// </summary>
+        protected UserManager<ApplicationUser> UserManager { get; set; }
+
+        public ArduinoController()
         {
-            _userManager = userManager;
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
         }
 
         // GET: Arduino
@@ -27,12 +37,17 @@ namespace NetDuino.Controllers
             return View();
         }
 
-        // GET: Arduino/{Name}
-        public ActionResult Arduino(string name)
+        // GET: Arduino/Display/{Name}
+        public async Task<ActionResult> Display(string authkey)
         {
-            var duino = context.Arduinos.Where(u => u.UserID == User.Identity.GetUserId<int>() && u.Name == name);
+            using (var db = new ApplicationDbContext())
+            {
+                var duino = await db.Arduinos.SingleAsync(u => u.AuthKey == authkey);
+                var components = db.Components.Where(u => u.ArduinoID == duino.ID).ToList();
 
-            return View(duino);
+                var viewModel = new ArduinoViewModel() { Arduino = duino, Components = components };
+                return View(viewModel);
+            }
         }
 
         // GET: Arduino/Create
@@ -47,32 +62,26 @@ namespace NetDuino.Controllers
         {
             try
             {
-                if(User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
-                    var rand = Helper.Helper.GenerateString(20);
-
-                    while(context.Arduinos.Any(x => x.AuthKey == rand))
-                    {
-                        // ugly as fuck but yeah...
-                        rand = Helper.Helper.GenerateString(20);
-                    }
-
                     var model = new ArduinoModel()
                     {
-                        AuthKey = rand,
-                        User = await _userManager.FindByIdAsync(User.Identity.GetUserId()),
+                        AuthKey = Helper.Helper.GenerateString(20),
+                        UserId = User.Identity.GetUserId(),
                         Name = collection["name"]
                     };
 
-                    context.Arduinos.Add(model);
-                    context.SaveChanges();
-                    
+                    ApplicationDbContext.Arduinos.Add(model);
+                    await ApplicationDbContext.SaveChangesAsync();
+
+                    return RedirectToAction("Display", new { model.AuthKey });
                 }
+
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                throw;
             }
         }
 

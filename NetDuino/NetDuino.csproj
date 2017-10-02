@@ -193,7 +193,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\ArduinoAPI.cs" />
+    <Compile Include="API\ArduinoApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -207,7 +207,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Migrations\201709291605328_InitialCreate.cs" />
+    <Compile Include="Migrations\201709291605328_InitialCreate.Designer.cs">
+      <DependentUpon>201709291605328_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710011831273_Added some stuff.cs" />
+    <Compile Include="Migrations\201710011831273_Added some stuff.Designer.cs">
+      <DependentUpon>201710011831273_Added some stuff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710012132131_int is now string.cs" />
+    <Compile Include="Migrations\201710012132131_int is now string.Designer.cs">
+      <DependentUpon>201710012132131_int is now string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ArduinoViewModel.cs" />
     <Compile Include="Models\ComponentModel.cs" />
     <Compile Include="Models\ArduinoModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,10 +286,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Arduino\Create.cshtml" />
+    <Content Include="Views\Arduino\Index.cshtml" />
+    <Content Include="Views\Arduino\Display.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Arduino\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -289,6 +305,17 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709291605328_InitialCreate.resx">
+      <DependentUpon>201709291605328_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710011831273_Added some stuff.resx">
+      <DependentUpon>201710011831273_Added some stuff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710012132131_int is now string.resx">
+      <DependentUpon>201710012132131_int is now string.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
