@@ -42,10 +42,10 @@ namespace NetDuino.Controllers
         {
             using (var db = new ApplicationDbContext())
             {
-                var duino = await db.Arduinos.SingleAsync(u => u.AuthKey == authkey);
+                var duino = await db.Arduinos.Include(u => u.Components).SingleAsync(u => u.AuthKey == authkey);
                 var components = db.Components.Where(u => u.ArduinoID == duino.ID).ToList();
 
-                var viewModel = new ArduinoViewModel() { Arduino = duino, Components = components };
+                var viewModel = new ArduinoViewModel() { Arduino = duino };
                 return View(viewModel);
             }
         }
@@ -85,50 +85,26 @@ namespace NetDuino.Controllers
             }
         }
 
-        // GET: Arduino/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Arduino/Edit/5
+        [Authorize]
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<JsonResult> AddComponent(ArduinoViewModel collection)
         {
-            try
+            var model = new ComponentModel()
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
+                ArduinoID = collection.Component.ArduinoID,
+                ComponentName = collection.Component.ComponentName,
+                Port = collection.Component.Port,
+                LastUpdated = DateTime.Now
+          };
+            using (var db = new ApplicationDbContext())
             {
-                return View();
+                if (User.Identity.GetUserId() == db.Arduinos.Single(x => model.ArduinoID == x.ID).UserId)
+                {
+                    db.Components.Add(model);
+                    db.SaveChanges();
+                }
             }
-        }
-
-        // GET: Arduino/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-
-
-        // POST: Arduino/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return null;
         }
     }
 }

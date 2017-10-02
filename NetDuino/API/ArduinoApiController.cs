@@ -24,7 +24,7 @@ namespace NetDuino.API
         }
 
         // POST api/<controller>/<authkey>
-        public async Task<HttpResponseMessage> Post(string authkey, [FromBody]string value)
+        public async Task<HttpResponseMessage> UpdateComponent(string authkey, [FromBody]string value)
         {
             var components = new JavaScriptSerializer().Deserialize<DeserializedJson>(value).Components;
             ArduinoModel arduino;

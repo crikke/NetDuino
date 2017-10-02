@@ -16,7 +16,6 @@ namespace NetDuino.Models
         public string Value { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        [Required]
         public int ArduinoID { get; set; }
         public virtual ArduinoModel Arduino { get; set; }
     }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace NetDuino.Models
 {
-    public class ArduinoViewModel
+    public class ArduinoComponentViewModel
     {
         public ArduinoModel Arduino { get; set; }
         public ComponentModel Component { get; set; }

@@ -221,6 +221,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ArduinoComponentViewModel.cs" />
     <Compile Include="Models\ArduinoViewModel.cs" />
     <Compile Include="Models\ComponentModel.cs" />
     <Compile Include="Models\ArduinoModel.cs" />
@@ -289,6 +290,7 @@
     <Content Include="Views\Arduino\Create.cshtml" />
     <Content Include="Views\Arduino\Index.cshtml" />
     <Content Include="Views\Arduino\Display.cshtml" />
+    <Content Include="Views\Shared\AddComponentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

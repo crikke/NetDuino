@@ -1,4 +1,5 @@
-﻿@model NetDuino.Models.ArduinoViewModel
+﻿@using NetDuino.Models;
+@model NetDuino.Models.ArduinoViewModel
 
 @{
     ViewBag.Title = "Arduino";
@@ -7,9 +8,20 @@
 <h2>Arduino</h2>
 
 <h1>@Model.Arduino.Name</h1>
-@foreach (var item in Model.Components)
+@foreach (var item in Model.Arduino.Components)
 {
     <p>@item.ComponentName</p>
+    <p>@item.Port</p>
     <p>@item.Arduino.Name</p>
 }
 
+@using (Html.BeginForm("AddComponent", "Arduino", FormMethod.Post))
+{
+    <p>asd</p>
+    @Html.LabelFor(m => m.Component.ComponentName);  <br />
+    @Html.EditorFor(m => m.Component.ComponentName);<br />
+    @Html.LabelFor(m => m.Component.Port);<br />
+    @Html.EditorFor(m => m.Component.Port);<br />
+    @Html.Hidden("Component.ArduinoID", @Model.Arduino.ID);
+    <input type="submit"  value="Add Component"/>
+}
