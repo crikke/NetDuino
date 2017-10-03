@@ -14,20 +14,16 @@ namespace NetDuino.Controllers
 {
     public class ArduinoController : AsyncController
     {
-        /// <summary>
-        /// Application DB context
-        /// </summary>
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
-
-        /// <summary>
-        /// User manager - attached to application DB context
-        /// </summary>
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+        IApplicationDbContext ApplicationDbContext = new ApplicationDbContext();
 
         public ArduinoController()
         {
             this.ApplicationDbContext = new ApplicationDbContext();
-            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+        }
+
+        public ArduinoController(IApplicationDbContext context)
+        {
+            ApplicationDbContext = context;
         }
 
         // GET: Arduino
@@ -38,16 +34,14 @@ namespace NetDuino.Controllers
         }
 
         // GET: Arduino/Display/{Name}
+        [Authorize]
         public async Task<ActionResult> Display(string authkey)
         {
-            using (var db = new ApplicationDbContext())
-            {
-                var duino = await db.Arduinos.Include(u => u.Components).SingleAsync(u => u.AuthKey == authkey);
-                var components = db.Components.Where(u => u.ArduinoID == duino.ID).ToList();
+            var duino = await ApplicationDbContext.Arduinos.Include(u => u.Components).SingleAsync(u => u.AuthKey == authkey);
+            var components = ApplicationDbContext.Components.Where(u => u.ArduinoID == duino.Id).ToList();
 
-                var viewModel = new ArduinoViewModel() { Arduino = duino };
-                return View(viewModel);
-            }
+            var viewModel = new ArduinoViewModel() { Arduino = duino };
+            return View(viewModel);
         }
 
         // GET: Arduino/Create
@@ -57,8 +51,9 @@ namespace NetDuino.Controllers
         }
 
         // POST: Arduino/Create
+        [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Create(FormCollection collection)
+        public async Task<ActionResult> Create(ArduinoModel collection)
         {
             try
             {
@@ -68,7 +63,7 @@ namespace NetDuino.Controllers
                     {
                         AuthKey = Helper.Helper.GenerateString(20),
                         UserId = User.Identity.GetUserId(),
-                        Name = collection["name"]
+                        Name = collection.Name
                     };
 
                     ApplicationDbContext.Arduinos.Add(model);
@@ -95,15 +90,14 @@ namespace NetDuino.Controllers
                 ComponentName = collection.Component.ComponentName,
                 Port = collection.Component.Port,
                 LastUpdated = DateTime.Now
-          };
-            using (var db = new ApplicationDbContext())
+            };
+
+            if (User.Identity.GetUserId() == ApplicationDbContext.Arduinos.Single(x => model.ArduinoID == x.Id).UserId)
             {
-                if (User.Identity.GetUserId() == db.Arduinos.Single(x => model.ArduinoID == x.ID).UserId)
-                {
-                    db.Components.Add(model);
-                    db.SaveChanges();
-                }
+                ApplicationDbContext.Components.Add(model);
+                await ApplicationDbContext.SaveChangesAsync();
             }
+
             return null;
         }
     }

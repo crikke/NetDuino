@@ -23,7 +23,7 @@ namespace NetDuino.Models
 
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -33,6 +33,11 @@ namespace NetDuino.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public void MarkAsModified(IDbEntry item)
+        {
+            Entry(item).State = EntityState.Modified;
         }
 
         public DbSet<ArduinoModel> Arduinos { get; set; }

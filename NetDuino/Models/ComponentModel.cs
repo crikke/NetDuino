@@ -6,9 +6,9 @@ using System.Web;
 
 namespace NetDuino.Models
 {
-    public class ComponentModel
+    public class ComponentModel : IDbEntry
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         // Port on the arduino
         public int Port { get; set; }
         // name for displaying on the interface

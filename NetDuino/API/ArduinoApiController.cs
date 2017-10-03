@@ -12,11 +12,19 @@ namespace NetDuino.API
 {
     public class ArduinoApiController : ApiController
     {
+        IApplicationDbContext db = new ApplicationDbContext();
+
+        public ArduinoApiController() { }
+
+        public ArduinoApiController(IApplicationDbContext context)
+        {
+            db = context;
+        }
+
         private class DeserializedJson
         {
             public List<ComponentModel> Components { get; set; }
         }
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -24,30 +32,28 @@ namespace NetDuino.API
         }
 
         // POST api/<controller>/<authkey>
+        [HttpPost]
         public async Task<HttpResponseMessage> UpdateComponent(string authkey, [FromBody]string value)
         {
             var components = new JavaScriptSerializer().Deserialize<DeserializedJson>(value).Components;
             ArduinoModel arduino;
-
-            using (var db = new ApplicationDbContext())
+            try
             {
-                try
-                {
-                    arduino = db.Arduinos.Single(x => x.AuthKey == authkey);
+                arduino = db.Arduinos.Single(x => x.AuthKey == authkey);
 
-                    foreach (var item in components)
-                    {
-                        var component = arduino.Components.Single(x => x.Port == item.Port);
-                        component.Value = item.Value;
-                        component.LastUpdated = DateTime.Now;
-                    }
-                    await db.SaveChangesAsync();
-                }
-                catch (Exception)
+                foreach (var item in components)
                 {
-                    throw;
+                    var component = arduino.Components.Single(x => x.Port == item.Port);
+                    component.Value = item.Value;
+                    component.LastUpdated = DateTime.Now;
                 }
+                await db.SaveChangesAsync();
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 

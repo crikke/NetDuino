@@ -9,9 +9,9 @@ namespace NetDuino.Models
 
     // need a URI 
 
-    public class ArduinoModel
+    public class ArduinoModel : IDbEntry
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string AuthKey { get; set; }
 
