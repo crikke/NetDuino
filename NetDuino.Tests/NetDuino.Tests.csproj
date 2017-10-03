@@ -101,6 +101,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="TestApplicationDbContext.cs" />
     <Compile Include="TestDbSet.cs" />
+    <Compile Include="TestMain.cs" />
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>

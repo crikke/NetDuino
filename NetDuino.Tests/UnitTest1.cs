@@ -5,16 +5,24 @@ using NetDuino.API;
 using System.Web.Script.Serialization;
 using NetDuino.Controllers;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Web;
 
 namespace NetDuino.Tests
 {
     [TestClass]
     public class UnitTest1
     {
+        [TestInitialize]
+        public void Init()
+        {
+            TestMain.SetUser();
+        }
+
         [TestMethod]
         public async Task UpdateComponent()
         {
-            ArduinoController controller = new ArduinoController(new TestApplicationDbContext());
+            ArduinoController controller = new ArduinoController(new TestApplicationDbContext(), TestMain.SetUser());
             ArduinoApiController api = new ArduinoApiController(new TestApplicationDbContext());
             var Component = new ComponentModel()
             {
@@ -36,7 +44,9 @@ namespace NetDuino.Tests
 
             var serialized = new JavaScriptSerializer().Serialize(controller);
 
-            var fii = api.UpdateComponent("foobar", serialized).Result;
+            var responseMessage = api.UpdateComponent("foobar", serialized).Result;
+
+            Assert.AreEqual(responseMessage, new HttpResponseMessage(System.Net.HttpStatusCode.OK));
         }
     }
 }

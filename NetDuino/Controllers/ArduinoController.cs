@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -21,7 +22,7 @@ namespace NetDuino.Controllers
             this.ApplicationDbContext = new ApplicationDbContext();
         }
 
-        public ArduinoController(IApplicationDbContext context)
+        public ArduinoController(IApplicationDbContext context, IPrincipal user)
         {
             ApplicationDbContext = context;
         }
