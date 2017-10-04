@@ -7,6 +7,10 @@ using NetDuino.Controllers;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Web;
+using System.Web.Mvc;
+using static NetDuino.API.ArduinoApiController;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NetDuino.Tests
 {
@@ -22,31 +26,34 @@ namespace NetDuino.Tests
         [TestMethod]
         public async Task UpdateComponent()
         {
-            ArduinoController controller = new ArduinoController(new TestApplicationDbContext(), TestMain.SetUser());
-            ArduinoApiController api = new ArduinoApiController(new TestApplicationDbContext());
-            var Component = new ComponentModel()
+            var context = new TestApplicationDbContext();
+            ArduinoController controller = new ArduinoController(context, TestMain.SetUser());
+
+            ArduinoApiController api = new ArduinoApiController(context);
+
+            var Components = new List<ComponentModel>()
             {
-                Port = 1,
-                ComponentName = "foo",
-                ArduinoID = 1,
-                Value = "0,11"
+                new ComponentModel() {
+                    Port = 1,
+                    ComponentName = "foo",
+                    ArduinoID = 0,
+                    Value = "0,11"
+                }
             };
 
             var arduino = new ArduinoModel()
             {
-                AuthKey = "foobar",
-                Id = 1,
                 Name = "fiffi",
-                UserId = "guidguid"
+                UserId = "userId"
             };
 
-            await controller.Create(arduino);
+            var authkey = controller.Create(arduino).Result.RouteValues["authkey"].ToString();
+            await controller.AddComponent(new ArduinoViewModel() { Arduino = arduino, Component = Components.First() });
 
-            var serialized = new JavaScriptSerializer().Serialize(controller);
+            var serialized = new JavaScriptSerializer().Serialize(Components);
+            var responseMessage = api.UpdateComponent(authkey, serialized).Result;
 
-            var responseMessage = api.UpdateComponent("foobar", serialized).Result;
-
-            Assert.AreEqual(responseMessage, new HttpResponseMessage(System.Net.HttpStatusCode.OK));
+            Assert.AreEqual(responseMessage.StatusCode, System.Net.HttpStatusCode.OK);
         }
     }
 }

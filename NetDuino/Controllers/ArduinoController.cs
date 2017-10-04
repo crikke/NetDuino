@@ -16,15 +16,18 @@ namespace NetDuino.Controllers
     public class ArduinoController : AsyncController
     {
         IApplicationDbContext ApplicationDbContext = new ApplicationDbContext();
+        new IPrincipal User { get; set; }
 
         public ArduinoController()
         {
             this.ApplicationDbContext = new ApplicationDbContext();
+            this.User = base.User;
         }
 
         public ArduinoController(IApplicationDbContext context, IPrincipal user)
         {
             ApplicationDbContext = context;
+            User = user;
         }
 
         // GET: Arduino
@@ -54,7 +57,7 @@ namespace NetDuino.Controllers
         // POST: Arduino/Create
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Create(ArduinoModel collection)
+        public async Task<RedirectToRouteResult> Create(ArduinoModel collection)
         {
             try
             {

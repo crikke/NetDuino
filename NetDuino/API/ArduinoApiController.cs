@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Data.Entity;
 using System.Web.Script.Serialization;
 
 namespace NetDuino.API
@@ -21,10 +22,6 @@ namespace NetDuino.API
             db = context;
         }
 
-        private class DeserializedJson
-        {
-            public List<ComponentModel> Components { get; set; }
-        }
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -35,15 +32,16 @@ namespace NetDuino.API
         [HttpPost]
         public async Task<HttpResponseMessage> UpdateComponent(string authkey, [FromBody]string value)
         {
-            var components = new JavaScriptSerializer().Deserialize<DeserializedJson>(value).Components;
+            var components = new JavaScriptSerializer().Deserialize<List<ComponentModel>>(value);
             ArduinoModel arduino;
+
             try
             {
-                arduino = db.Arduinos.Single(x => x.AuthKey == authkey);
+                arduino = db.Arduinos.Where(x => x.AuthKey == authkey).FirstOrDefault();
 
                 foreach (var item in components)
                 {
-                    var component = arduino.Components.Single(x => x.Port == item.Port);
+                    var component = db.Components.Single(x => x.ArduinoID == arduino.Id && x.Port == item.Port);
                     component.Value = item.Value;
                     component.LastUpdated = DateTime.Now;
                 }
