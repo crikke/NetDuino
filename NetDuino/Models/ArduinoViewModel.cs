@@ -8,6 +8,6 @@ namespace NetDuino.Models
     public class ArduinoViewModel
     {
         public ArduinoModel Arduino { get; set; }
-        public ComponentModel Component { get; set; }
+        public ComponentViewModel Components { get; set; }
     }
 }

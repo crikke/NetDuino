@@ -7,7 +7,7 @@ namespace NetDuino.Models
     public interface IApplicationDbContext : IDisposable
     {
         DbSet<ArduinoModel> Arduinos { get; }
-        DbSet<ComponentModel> Components { get; }
+        DbSet<Component> Components { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         void MarkAsModified(IDbEntry item);

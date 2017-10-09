@@ -13,11 +13,11 @@ namespace NetDuino.Tests
         public TestApplicationDbContext()
         {
             this.Arduinos = new TestDbSet<ArduinoModel>();
-            this.Components = new TestDbSet<ComponentModel>();
+            this.Components = new TestDbSet<Component>();
         }
 
         public DbSet<ArduinoModel> Arduinos { get; set; }
-        public DbSet<ComponentModel> Components { get; set; }
+        public DbSet<Component> Components { get; set; }
 
         public int SaveChanges()
         {

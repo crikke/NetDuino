@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using NetDuino.Models;
+using NetDuino.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,18 +17,20 @@ namespace NetDuino.Controllers
     public class ArduinoController : AsyncController
     {
         IApplicationDbContext ApplicationDbContext = new ApplicationDbContext();
-        new IPrincipal User { get; set; }
+        ComponentServices componentServices = new ComponentServices();
+        //new IPrincipal User { get; set; }
 
         public ArduinoController()
         {
             this.ApplicationDbContext = new ApplicationDbContext();
-            this.User = base.User;
+            //this.User = base.User;
         }
 
-        public ArduinoController(IApplicationDbContext context, IPrincipal user)
+        public ArduinoController(IApplicationDbContext context, GenericPrincipal user)
         {
             ApplicationDbContext = context;
-            User = user;
+            componentServices = new ComponentServices(context);
+            //User = new GenericPrincipal(null, null);
         }
 
         // GET: Arduino
@@ -42,10 +45,15 @@ namespace NetDuino.Controllers
         public async Task<ActionResult> Display(string authkey)
         {
             var duino = await ApplicationDbContext.Arduinos.Include(u => u.Components).SingleAsync(u => u.AuthKey == authkey);
-            var components = ApplicationDbContext.Components.Where(u => u.ArduinoID == duino.Id).ToList();
 
             var viewModel = new ArduinoViewModel() { Arduino = duino };
             return View(viewModel);
+        }
+
+        public ActionResult GetComponentMenu(int id)
+        {
+            ViewBag.Id = id;
+            return PartialView("_ComponentMenuPartial", new ComponentViewModel());
         }
 
         // GET: Arduino/Create
@@ -86,23 +94,52 @@ namespace NetDuino.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<JsonResult> AddComponent(ArduinoViewModel collection)
+        public async Task<JsonResult> AddSlider(ComponentViewModel model)
         {
-            var model = new ComponentModel()
+            if(await componentServices.AddComponent(model.Slider, User.Identity.GetUserId()))
             {
-                ArduinoID = collection.Component.ArduinoID,
-                ComponentName = collection.Component.ComponentName,
-                Port = collection.Component.Port,
-                LastUpdated = DateTime.Now
-            };
-
-            if (User.Identity.GetUserId() == ApplicationDbContext.Arduinos.Single(x => model.ArduinoID == x.Id).UserId)
-            {
-                ApplicationDbContext.Components.Add(model);
-                await ApplicationDbContext.SaveChangesAsync();
+                return null;
             }
-
             return null;
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> AddLabel(ComponentViewModel model)
+        {
+            if (await componentServices.AddComponent(model.Label, User.Identity.GetUserId()))
+            {
+                return null;
+            }
+            return null;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> AddButton(ComponentViewModel model)
+        {
+            if (await componentServices.AddComponent(model.Button, User.Identity.GetUserId()))
+            {
+                return null;
+            }
+            return null;
+        }
+        //[Authorize]
+        //[HttpPost]
+        //public async Task<JsonResult> AddComponent(ArduinoViewModel collection)
+        //{
+        //    var component = collection.;
+
+        //    component.LastUpdated = DateTime.Now;
+
+
+        //    if (User.Identity.GetUserId() == ApplicationDbContext.Arduinos.Single(x => component.ArduinoID == x.Id).UserId)
+        //    {
+        //        ApplicationDbContext.Components.Add(component);
+        //        await ApplicationDbContext.SaveChangesAsync();
+        //    }
+
+        //    return null;
+        //}
     }
 }

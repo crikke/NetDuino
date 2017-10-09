@@ -21,43 +21,44 @@ namespace NetDuino.API
         {
             db = context;
         }
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
+        public class DeserializedValue
+        {
+            public int Port { get; set; }
+            public string Value { get; set; }
+        }
+
         // POST api/<controller>/<authkey>
         [HttpPost]
-        public async Task<HttpResponseMessage> UpdateComponent(string authkey, [FromBody]string value)
+        public async Task<HttpResponseMessage> UpdateComponentValue(string authkey, [FromBody]string value)
         {
-            var components = new JavaScriptSerializer().Deserialize<List<ComponentModel>>(value);
-            ArduinoModel arduino;
+         
+            var components = new JavaScriptSerializer().Deserialize<List<DeserializedValue>>(value);
 
             try
             {
-                arduino = db.Arduinos.Where(x => x.AuthKey == authkey).FirstOrDefault();
+                var arduino = db.Arduinos.Single(x => x.AuthKey == authkey);
 
                 foreach (var item in components)
                 {
                     var component = db.Components.Single(x => x.ArduinoID == arduino.Id && x.Port == item.Port);
-                    component.Value = item.Value;
                     component.LastUpdated = DateTime.Now;
+
+                    component.Value = item.Value;
+
                 }
                 await db.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                throw;
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-
             return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
         }
     }
 }

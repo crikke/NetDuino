@@ -1,0 +1,41 @@
+﻿@using NetDuino.Models
+@model ComponentViewModel
+
+@if (Model != null)
+{
+    int arduinoid = ViewBag.Id;
+    using (Html.BeginForm("AddButton", "Arduino", FormMethod.Post))
+    {
+        @Html.LabelFor(m => m.Button.ComponentName);  <br />
+        @Html.EditorFor(m => m.Button.ComponentName);<br />
+        @Html.LabelFor(m => m.Button.Port);<br />
+        @Html.EditorFor(m => m.Button.Port);<br />
+        @Html.Hidden("Button.ArduinoID", arduinoid); <br />
+        <input type="submit" value="Add Component" />
+    }
+
+    using (Html.BeginForm("AddSlider", "Arduino", FormMethod.Post))
+    {
+        @Html.LabelFor(m => m.Slider.ComponentName);  <br />
+        @Html.EditorFor(m => m.Slider.ComponentName);<br />
+        @Html.LabelFor(m => m.Slider.Port);<br />
+        @Html.EditorFor(m => m.Slider.Port);<br />
+        @Html.LabelFor(m => m.Slider.MaxValue);<br />
+        @Html.EditorFor(m => m.Slider.MaxValue);<br />
+        @Html.LabelFor(m => m.Slider.MinValue);<br />
+        @Html.EditorFor(m => m.Slider.MinValue);<br />
+        @Html.Hidden("Slider.ArduinoID", arduinoid);
+        <input type="submit" value="Add Component" />
+    }
+
+    using (Html.BeginForm("AddLabel", "Arduino", FormMethod.Post))
+    {
+        @Html.LabelFor(m => m.Label.ComponentName);  <br />
+        @Html.EditorFor(m => m.Label.ComponentName);<br />
+        @Html.LabelFor(m => m.Label.Port);<br />
+        @Html.EditorFor(m => m.Label.Port);<br />
+        @Html.Hidden("Label.ArduinoID", arduinoid);
+        <input type="submit" value="Add Component" />
+    }
+}
+
