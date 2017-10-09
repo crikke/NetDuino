@@ -42,6 +42,7 @@ namespace NetDuino.Controllers
 
         // GET: Arduino/Display/{Name}
         [Authorize]
+        [Route("display/{authkey}")]
         public async Task<ActionResult> Display(string authkey)
         {
             var duino = await ApplicationDbContext.Arduinos.Include(u => u.Components).SingleAsync(u => u.AuthKey == authkey);
@@ -124,22 +125,5 @@ namespace NetDuino.Controllers
             }
             return null;
         }
-        //[Authorize]
-        //[HttpPost]
-        //public async Task<JsonResult> AddComponent(ArduinoViewModel collection)
-        //{
-        //    var component = collection.;
-
-        //    component.LastUpdated = DateTime.Now;
-
-
-        //    if (User.Identity.GetUserId() == ApplicationDbContext.Arduinos.Single(x => component.ArduinoID == x.Id).UserId)
-        //    {
-        //        ApplicationDbContext.Components.Add(component);
-        //        await ApplicationDbContext.SaveChangesAsync();
-        //    }
-
-        //    return null;
-        //}
     }
 }

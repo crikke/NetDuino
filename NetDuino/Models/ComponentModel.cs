@@ -37,6 +37,7 @@ namespace NetDuino.Models
         {
 
         }
+
         public int Id { get; set; }
         public int Port { get; set; }
         public string Value { get; set; }

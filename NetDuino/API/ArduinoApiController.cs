@@ -22,10 +22,6 @@ namespace NetDuino.API
             db = context;
         }
         // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         public class DeserializedValue
         {
@@ -37,7 +33,6 @@ namespace NetDuino.API
         [HttpPost]
         public async Task<HttpResponseMessage> UpdateComponentValue(string authkey, [FromBody]string value)
         {
-         
             var components = new JavaScriptSerializer().Deserialize<List<DeserializedValue>>(value);
 
             try
