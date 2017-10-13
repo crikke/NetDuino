@@ -1,24 +1,62 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    margin: 0px;
+    background-color: #303233;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.navbar {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-gap: 1em;
+    grid-auto-flow: column;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+.navbar-home {
+    font-size: 1.5em;
+    font-style: normal;
+    text-decoration: none;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+a, a :visited :hover {
+    text-decoration: none;
+    color: white;
 }
+
+.navbar > div {
+    padding: 0.5em;
+}
+
+.navbar-home {
+}
+
+
+.top-menu-outer {
+    background-color: #191A1B;
+    padding: 0.5em;
+    margin: 0;
+}
+
+.nav-login {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    justify-content: center;
+    grid-auto-rows: inherit;
+}
+
+    .nav-login > a {
+        padding: 0.5em;
+        align-self: center;
+    }
+
+.grid-stack-item {
+    background-color: wheat;
+}
+
+    .grid-stack-item[data-gs-width="1"] {
+        width: 33.33333333%
+    }
+
+    .grid-stack-item[data-gs-width="1"] {
+        width: 33.33333333%
+    }

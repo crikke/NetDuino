@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Content/gridstack-extra.css",
+    "inputFile": "Content/gridstack-extra.scss"
+  },
+  {
+    "outputFile": "Content/gridstack.css",
+    "inputFile": "Content/gridstack.scss"
+  }
+]

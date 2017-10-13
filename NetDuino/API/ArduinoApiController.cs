@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Data.Entity;
 using System.Web.Script.Serialization;
+using NetDuino.Services;
 
 namespace NetDuino.API
 {
     public class ArduinoApiController : ApiController
     {
         IApplicationDbContext db = new ApplicationDbContext();
+        ComponentServices componentServices = new ComponentServices();
 
         public ArduinoApiController() { }
 
@@ -37,17 +39,10 @@ namespace NetDuino.API
 
             try
             {
-                var arduino = db.Arduinos.Single(x => x.AuthKey == authkey);
-
                 foreach (var item in components)
                 {
-                    var component = db.Components.Single(x => x.ArduinoID == arduino.Id && x.Port == item.Port);
-                    component.LastUpdated = DateTime.Now;
-
-                    component.Value = item.Value;
-
+                    await componentServices.UpdateComponentValue(authkey, item);
                 }
-                await db.SaveChangesAsync();
             }
             catch (InvalidOperationException)
             {

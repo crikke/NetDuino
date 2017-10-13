@@ -5,14 +5,35 @@
     ViewBag.Title = "Arduino";
 }
 
-<h2>Arduino</h2>w 
-
 <h1>@Model.Arduino.Name</h1>
-@foreach (var item in Model.Arduino.Components)
-{
-    <p>@item.ComponentName</p>
-    <p>@item.Port</p>
-    <p>@item.Arduino.Name</p>
-}
+<div class="grid-stack grid-stack-24">
+    <div class="grid-stack-item"
+         data-gs-x="0" data-gs-y="0"
+         data-gs-width="4" data-gs-height="2">
+        <div class="grid-stack-item-content"><span>snopp</span></div>
+    </div>
+    <div class="grid-stack-item gs-item"
+         data-gs-x="4" data-gs-y="0"
+         data-gs-width="4" data-gs-height="4">
+        <div class="grid-stack-item-content"></div>
+    </div>
+</div>
 
-@Html.Action("GetComponentMenu", new { Id = Model.Arduino.Id });
+
+
+@Html.Action("GetComponentMenu", new { Id = Model.Arduino.Id })
+
+@section scripts 
+{
+    <script>
+        $(function () {
+            var options = {
+                cellHeight: 20,
+                verticalMargin: 5,
+                float: true,
+                width: 24
+            };
+            $('.grid-stack').gridstack(options);
+        });
+    </script>
+}
