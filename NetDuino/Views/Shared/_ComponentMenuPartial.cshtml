@@ -6,6 +6,7 @@
     int arduinoid = ViewBag.Id;
     using (Html.BeginForm("AddButton", "Arduino", FormMethod.Post))
     {
+        <span>Button</span>
         @Html.LabelFor(m => m.Button.ComponentName);  <br />
         @Html.EditorFor(m => m.Button.ComponentName);<br />
         @Html.LabelFor(m => m.Button.Port);<br />
@@ -16,6 +17,8 @@
 
     using (Html.BeginForm("AddSlider", "Arduino", FormMethod.Post))
     {
+        <span>Slider</span>
+
         @Html.LabelFor(m => m.Slider.ComponentName);  <br />
         @Html.EditorFor(m => m.Slider.ComponentName);<br />
         @Html.LabelFor(m => m.Slider.Port);<br />
@@ -30,6 +33,8 @@
 
     using (Html.BeginForm("AddLabel", "Arduino", FormMethod.Post))
     {
+        <span>Label</span>
+
         @Html.LabelFor(m => m.Label.ComponentName);  <br />
         @Html.EditorFor(m => m.Label.ComponentName);<br />
         @Html.LabelFor(m => m.Label.Port);<br />

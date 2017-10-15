@@ -27,7 +27,7 @@ a, a :visited :hover {
     padding: 0.5em;
 }
 
-.navbar-home { 
+.navbar-home {
 }
 
 
@@ -44,11 +44,21 @@ a, a :visited :hover {
     grid-auto-rows: inherit;
 }
 
-    .nav-login > a {
-        padding: 0.5em;
-        align-self: center;
-    }
+.nav-login > a {
+    padding: 0.5em;
+    align-self: center;
+}
 
 .grid-stack-item {
     background-color: dimgray;
+}
+
+.display-container {
+    display: grid;
+    grid-template-columns: 8fr 1fr;
+}
+
+.component-menu {
+    background-color: #6E6F70;
+    padding: 1em;
 }

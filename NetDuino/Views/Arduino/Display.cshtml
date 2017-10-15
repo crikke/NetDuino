@@ -5,30 +5,33 @@
     ViewBag.Title = "Arduino";
 }
 
-<h1>@Model.Arduino.Name</h1>
-<div class="grid-stack grid-stack-24">  
 
-     @foreach (var item in Model.Arduino.Components)
-     {
-         
-        <div class="grid-stack-item"
-             data-gs-x="@item.PositionX" data-gs-y="@item.PositionY"
-             data-gs-width="@item.Width" data-gs-height="@item.Height"
-             data-component-id="@item.Id">
-            <div class="grid-stack-item-content">
-                @foreach (var itemvalue in item.GetValues())
+<div class="display-container">
+    <div class="grid-stack grid-stack-24">
+
+        @foreach (var item in Model.Arduino.Components)
+        {
+
+            <div class="grid-stack-item"
+                 data-gs-x="@item.PositionX" data-gs-y="@item.PositionY"
+                 data-gs-width="@item.Width" data-gs-height="@item.Height"
+                 data-component-id="@item.Id">
+                <div class="grid-stack-item-content">
+                    @foreach (var itemvalue in item.GetValues())
                 {
-                    <span>@itemvalue.Key</span>
-                    <span>@itemvalue.Value</span>
-                }
+                        <span>@itemvalue.Key</span>
+                        <span>@itemvalue.Value</span>
+                    }
+                </div>
             </div>
-        </div>
-     }
+        }
+    </div>
+    <aside class="component-menu">
+        @Html.Action("GetComponentMenu", new { Id = Model.Arduino.Id })
+    </aside>
 </div>
 
 
-
-@Html.Action("GetComponentMenu", new { Id = Model.Arduino.Id })
 
 @section scripts 
 {
@@ -42,13 +45,16 @@
                 height: 10
             };
             $('.grid-stack').gridstack(options);
-            $('.grid-stack').on('dragstop', function (event, ui) {
+            $('.grid-stack').on('change', function (event, items) {
                 var grid = this;
-                var element = event.target;
+                var element = items[0];
                 var data = {
-                    "posX" : element.getAttribute("data-gs-x"),
-                    "posY" : element.getAttribute("data-gs-y"),
-                    "elementId" :element.getAttribute("data-component-id")
+                    "arduinoId" : @Model.Arduino.Id,
+                    "posX" : element.x,
+                    "posY" : element.y,
+                    "height" : element.height,
+                    "width" : element.width,
+                    "elementId" : element.el[0].getAttribute("data-component-id")
                 }
                 $.ajax({
                     type: "POST",

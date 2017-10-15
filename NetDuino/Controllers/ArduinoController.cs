@@ -130,17 +130,39 @@ namespace NetDuino.Controllers
         }
 
         [HttpPost]
-        public async Task UpdatePosition(PositionViewModel model)
-
+        public async Task<ActionResult> UpdatePosition(PositionViewModel model)
         {
-            await Task.Delay(1);
+            try
+            {
+                int.TryParse(model.arduinoId, out var arduinoId);
+                var arduino = ApplicationDbContext.Arduinos.Single(x => x.Id == arduinoId);
+
+                var component = arduino.Components.Single(x => x.Id == int.Parse(model.elementId));
+
+                component.Height = int.Parse(model.height);
+                component.Width = int.Parse(model.width);
+                component.PositionX = int.Parse(model.posX);
+                component.PositionY = int.Parse(model.posY);
+
+                await ApplicationDbContext.SaveChangesAsync();
+                return null;
+            }
+            catch(Exception)
+            {
+                return new HttpStatusCodeResult(500, "internal server error");
+            }
+            
         }
 
         public class PositionViewModel
         {
+            public string arduinoId { get; set; }
+            public string elementId { get; set; }
+
+            public string width { get; set; }
+            public string height { get; set; }
             public string posX { get; set; }
             public string posY { get; set; }
-            public string elementId { get; set; }
 
         }
     }
