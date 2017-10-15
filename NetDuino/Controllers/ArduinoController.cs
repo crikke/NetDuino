@@ -34,10 +34,13 @@ namespace NetDuino.Controllers
         }
 
         // GET: Arduino
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             // display all current arduinos here.
-            return View();
+            var userID = User.Identity.GetUserId();
+            var user = await HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindByIdAsync(userID);
+            
+            return View(user);
         }
 
         // GET: Arduino/Display/{Name}
@@ -124,6 +127,21 @@ namespace NetDuino.Controllers
                 return null;
             }
             return null;
+        }
+
+        [HttpPost]
+        public async Task UpdatePosition(PositionViewModel model)
+
+        {
+            await Task.Delay(1);
+        }
+
+        public class PositionViewModel
+        {
+            public string posX { get; set; }
+            public string posY { get; set; }
+            public string elementId { get; set; }
+
         }
     }
 }

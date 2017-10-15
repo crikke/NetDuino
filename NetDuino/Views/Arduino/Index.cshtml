@@ -9,17 +9,15 @@
 @{
     if (Model.Arduinos.Count == 0)
     {
-        Html.ActionLink("Click here to add new device.", "Create");
+        <div>@Html.ActionLink("Click here to add new device.", "Create")</div>
     }
     else
     {
         foreach (var item in Model.Arduinos)
-        { 
+        {
             <div>
-                <h2>@item.Name</h2>
+                @Html.ActionLink(item.Name,"Display", new { authkey = item.AuthKey })
             </div>
         }
     }
 }
-
-

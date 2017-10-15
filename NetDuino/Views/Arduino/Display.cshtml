@@ -6,17 +6,24 @@
 }
 
 <h1>@Model.Arduino.Name</h1>
-<div class="grid-stack grid-stack-24">
-    <div class="grid-stack-item"
-         data-gs-x="0" data-gs-y="0"
-         data-gs-width="4" data-gs-height="2">
-        <div class="grid-stack-item-content"><span>snopp</span></div>
-    </div>
-    <div class="grid-stack-item gs-item"
-         data-gs-x="4" data-gs-y="0"
-         data-gs-width="4" data-gs-height="4">
-        <div class="grid-stack-item-content"></div>
-    </div>
+<div class="grid-stack grid-stack-24">  
+
+     @foreach (var item in Model.Arduino.Components)
+     {
+         
+        <div class="grid-stack-item"
+             data-gs-x="@item.PositionX" data-gs-y="@item.PositionY"
+             data-gs-width="@item.Width" data-gs-height="@item.Height"
+             data-component-id="@item.Id">
+            <div class="grid-stack-item-content">
+                @foreach (var itemvalue in item.GetValues())
+                {
+                    <span>@itemvalue.Key</span>
+                    <span>@itemvalue.Value</span>
+                }
+            </div>
+        </div>
+     }
 </div>
 
 
@@ -28,12 +35,30 @@
     <script>
         $(function () {
             var options = {
-                cellHeight: 20,
-                verticalMargin: 5,
+                cellHeight: 'auto',
+                verticalMargin: 10,
                 float: true,
-                width: 24
+                width: 24,
+                height: 10
             };
             $('.grid-stack').gridstack(options);
+            $('.grid-stack').on('dragstop', function (event, ui) {
+                var grid = this;
+                var element = event.target;
+                var data = {
+                    "posX" : element.getAttribute("data-gs-x"),
+                    "posY" : element.getAttribute("data-gs-y"),
+                    "elementId" :element.getAttribute("data-component-id")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdatePosition")',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json'
+                });
+            });
+
+
         });
     </script>
 }

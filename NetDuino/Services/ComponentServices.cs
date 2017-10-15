@@ -31,7 +31,6 @@ namespace NetDuino.Services
                 var component = ApplicationDbContext.Components.Single(x => x.ArduinoID == arduino.Id && x.Port == deserializedValue.Port);
 
                 component.LastUpdated = DateTime.Now;
-                component.Value = deserializedValue.Value;
 
                 await ApplicationDbContext.SaveChangesAsync();
 
@@ -55,7 +54,6 @@ namespace NetDuino.Services
                     ApplicationDbContext.Components.Add(component);
                     await ApplicationDbContext.SaveChangesAsync();
 
-                    hub.Clients.Group(arduino.AuthKey).onUpdateComponent(component);
 
                     return true;
                 }

@@ -239,6 +239,10 @@
     <Compile Include="Migrations\201710091826076_asd123.Designer.cs">
       <DependentUpon>201710091826076_asd123.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710141652513_Sparkling twinkle powder.cs" />
+    <Compile Include="Migrations\201710141652513_Sparkling twinkle powder.Designer.cs">
+      <DependentUpon>201710141652513_Sparkling twinkle powder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArduinoComponentViewModel.cs" />
@@ -362,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710091826076_asd123.resx">
       <DependentUpon>201710091826076_asd123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710141652513_Sparkling twinkle powder.resx">
+      <DependentUpon>201710141652513_Sparkling twinkle powder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

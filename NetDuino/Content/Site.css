@@ -27,7 +27,7 @@ a, a :visited :hover {
     padding: 0.5em;
 }
 
-.navbar-home {
+.navbar-home { 
 }
 
 
@@ -50,13 +50,5 @@ a, a :visited :hover {
     }
 
 .grid-stack-item {
-    background-color: wheat;
+    background-color: dimgray;
 }
-
-    .grid-stack-item[data-gs-width="1"] {
-        width: 33.33333333%
-    }
-
-    .grid-stack-item[data-gs-width="1"] {
-        width: 33.33333333%
-    }

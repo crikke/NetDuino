@@ -19,7 +19,7 @@ namespace NetDuino.Models
             return userIdentity;
         }
 
-        public ICollection<ArduinoModel> Arduinos { get; set; }
+        public virtual ICollection<ArduinoModel> Arduinos { get; set; }
 
     }
 
