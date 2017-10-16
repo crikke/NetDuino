@@ -18,9 +18,11 @@
                  data-component-id="@item.Id">
                 <div class="grid-stack-item-content">
                     @foreach (var itemvalue in item.GetValues())
-                {
-                        <span>@itemvalue.Key</span>
-                        <span>@itemvalue.Value</span>
+                    {
+                        <div class="item-values">
+                            <span>@itemvalue.Key</span>
+                            <span>@itemvalue.Value</span>
+                        </div>
                     }
                 </div>
             </div>
@@ -31,9 +33,7 @@
     </aside>
 </div>
 
-
-
-@section scripts 
+@section scripts
 {
     <script>
         $(function () {

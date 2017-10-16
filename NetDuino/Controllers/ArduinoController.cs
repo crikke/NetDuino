@@ -151,19 +151,16 @@ namespace NetDuino.Controllers
             {
                 return new HttpStatusCodeResult(500, "internal server error");
             }
-            
         }
 
         public class PositionViewModel
         {
             public string arduinoId { get; set; }
             public string elementId { get; set; }
-
             public string width { get; set; }
             public string height { get; set; }
             public string posX { get; set; }
             public string posY { get; set; }
-
         }
     }
 }

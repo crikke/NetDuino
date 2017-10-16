@@ -62,3 +62,9 @@ a, a :visited :hover {
     background-color: #6E6F70;
     padding: 1em;
 }
+
+.item-values {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+
+}

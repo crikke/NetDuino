@@ -10,61 +10,42 @@ using System.Web;
 
 namespace NetDuino.Models
 {
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ComponentPropertyAttribute : Attribute
+    {
+        public bool CanEdit { get; set; }
+        public string DisplayName { get; set; }
+    }
+
     public class SliderComponent : Component
     {
+        [ComponentProperty(CanEdit = true, DisplayName ="Max slider value")]
         public int MaxValue { get; set; }
+
+        [ComponentProperty(CanEdit = true)]
         public int MinValue { get; set; }
 
+        [ComponentProperty(CanEdit = true)]
         public int SliderValue { get; set; }
-
-        public override Dictionary<string, string> GetValues()
-        {
-            var res = new Dictionary<string, string>
-            {
-                { "SliderValue", SliderValue.ToString() }
-            };
-
-            return res;
-        }
     }
 
     public class ButtonComponent : Component
     {
+        [ComponentProperty(CanEdit = true)]
         public bool IsToggle { get; set; }
 
+        [ComponentProperty(CanEdit = true)]
         public int ToggleValue { get; set; }
-
-        public override Dictionary<string, string> GetValues()
-        {
-            var res = new Dictionary<string, string>();
-            res.Add("IsToggle", "true");
-            res.Add("ToggleValue", ToggleValue.ToString());
-
-            return res;
-        }
     }
 
     public class LabelComponent : Component
     {
+        [ComponentProperty(CanEdit = true)]
         public string LabelValue { get; set; }
-
-        public override Dictionary<string, string> GetValues()
-        {
-            var res = new Dictionary<string, string>();
-            res.Add("Label", LabelValue);
-
-            return res;
-        }
     }
 
     public abstract class Component : IDbEntry
     {
-
-        public Component()
-        {
-
-        }
-
         public int PositionX { get; set; }
         public int PositionY { get; set; }
         public int Width { get; set; }
@@ -77,6 +58,35 @@ namespace NetDuino.Models
         public int ArduinoID { get; set; }
         public virtual ArduinoModel Arduino { get; set; }
 
-        public abstract Dictionary<string, string> GetValues();
+        public Dictionary<string, object> GetValues()
+        {
+            var res = new Dictionary<string, object>();
+
+            var properties = this.GetType().GetProperties();
+            foreach (var item in properties)
+            {
+                var propertyInfo = item.GetCustomAttribute<ComponentPropertyAttribute>();
+                if (propertyInfo != null && propertyInfo.CanEdit)
+                {
+                    var displayname = propertyInfo.DisplayName ?? item.Name;
+                    res.Add(displayname, item.GetValue(this));
+                }
+            }
+            return res;
+        }
+
+        public bool SetValue(string key, object val)
+        {
+            // if i would use reflection, make custom attribute what properties can be changed
+            var property = GetType().GetProperties().Single(x => x.Name == key);
+            var propertyInfo = property.GetCustomAttribute<ComponentPropertyAttribute>();
+
+            if (propertyInfo.CanEdit)
+            {
+                property.SetValue(this, val);
+                return true;
+            }
+            return false;
+        }
     }
 }
