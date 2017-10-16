@@ -1,0 +1,24 @@
+﻿@model NetDuino.Models.SliderComponent
+
+<div class="item-inner">
+    <div class="component-inner-top">
+        <span>@Model.ComponentName</span>
+        
+    </div>
+    <span class="slider-label-@Model.Id">@Model.GetValue("SliderValue")</span>
+    <input type="range"
+           min="@Model.MinValue"
+           max="@Model.MaxValue"
+           name="@Model.ComponentName"
+           value="@Model.GetValue("SliderValue")"
+           class="component-slider-@Model.Id" />
+</div>
+<script>
+    var label = document.getElementsByClassName('slider-label-@Model.Id');
+    var slider = document.getElementsByClassName('component-slider-@Model.Id');
+
+    slider[0].oninput = function () {
+        label[0].innerHTML = slider[0].value;
+    };
+</script>
+

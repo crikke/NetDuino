@@ -17,13 +17,7 @@
                  data-gs-width="@item.Width" data-gs-height="@item.Height"
                  data-component-id="@item.Id">
                 <div class="grid-stack-item-content">
-                    @foreach (var itemvalue in item.GetValues())
-                    {
-                        <div class="item-values">
-                            <span>@itemvalue.Key</span>
-                            <span>@itemvalue.Value</span>
-                        </div>
-                    }
+                    @Html.Action("GetComponentView", "component", new { component = item })
                 </div>
             </div>
         }

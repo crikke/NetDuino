@@ -14,19 +14,19 @@ using System.Web.Mvc;
 
 namespace NetDuino.Controllers
 {
-    public class ArduinoController : AsyncController
+    public class DashboardController : AsyncController
     {
         IApplicationDbContext ApplicationDbContext = new ApplicationDbContext();
         ComponentServices componentServices = new ComponentServices();
         //new IPrincipal User { get; set; }
 
-        public ArduinoController()
+        public DashboardController()
         {
             this.ApplicationDbContext = new ApplicationDbContext();
             //this.User = base.User;
         }
 
-        public ArduinoController(IApplicationDbContext context, GenericPrincipal user)
+        public DashboardController(IApplicationDbContext context, GenericPrincipal user)
         {
             ApplicationDbContext = context;
             componentServices = new ComponentServices(context);
@@ -116,7 +116,7 @@ namespace NetDuino.Controllers
                 return null;
             }
             return null; 
-        }
+        }   
 
         [Authorize]
         [HttpPost]

@@ -1,0 +1,9 @@
+﻿@model NetDuino.Models.Component
+
+@foreach (var itemvalue in Model.GetValues())
+{
+    <div class="item-values">
+        <span>@itemvalue.Key</span>
+        <span>@itemvalue.Value</span>
+    </div>
+}

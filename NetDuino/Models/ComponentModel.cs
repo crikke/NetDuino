@@ -17,6 +17,13 @@ namespace NetDuino.Models
         public string DisplayName { get; set; }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    public class ComponentDisplayAttribute : Attribute
+    {
+        public string ViewURI { get; set; }
+    }
+
+    [ComponentDisplay(ViewURI = "SliderComponentPartial")]
     public class SliderComponent : Component
     {
         [ComponentProperty(CanEdit = true, DisplayName ="Max slider value")]
@@ -75,6 +82,21 @@ namespace NetDuino.Models
             return res;
         }
 
+        public object GetValue(string key)
+        {
+            var properties = this.GetType().GetProperties();
+            foreach (var item in properties)
+            {
+                var propertyInfo = item.GetCustomAttribute<ComponentPropertyAttribute>();
+                if(propertyInfo != null && propertyInfo.CanEdit)
+                {
+                    if (item.Name == key)
+                        return item.GetValue(this);
+                }
+            }
+            return null;
+        }
+
         public bool SetValue(string key, object val)
         {
             // if i would use reflection, make custom attribute what properties can be changed
@@ -88,5 +110,6 @@ namespace NetDuino.Models
             }
             return false;
         }
+
     }
 }
