@@ -4,7 +4,7 @@
 @if (Model != null)
 {
     int arduinoid = ViewBag.Id;
-    using (Html.BeginForm("AddButton", "Arduino", FormMethod.Post))
+    using (Html.BeginForm("AddButton", "Dashboard", FormMethod.Post))
     {
         <span>Button</span>
         @Html.LabelFor(m => m.Button.ComponentName);  <br />
@@ -15,7 +15,7 @@
         <input type="submit" value="Add Component" />
     }
 
-    using (Html.BeginForm("AddSlider", "Arduino", FormMethod.Post))
+    using (Html.BeginForm("AddSlider", "Dashboard", FormMethod.Post))
     {
         <span>Slider</span>
 
@@ -31,7 +31,7 @@
         <input type="submit" value="Add Component" />
     }
 
-    using (Html.BeginForm("AddLabel", "Arduino", FormMethod.Post))
+    using (Html.BeginForm("AddLabel", "Dashboard", FormMethod.Post))
     {
         <span>Label</span>
 

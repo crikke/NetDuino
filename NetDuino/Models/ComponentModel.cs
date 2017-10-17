@@ -110,6 +110,5 @@ namespace NetDuino.Models
             }
             return false;
         }
-
     }
 }

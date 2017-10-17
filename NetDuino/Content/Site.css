@@ -1,8 +1,8 @@
 ﻿body {
     margin: 0px;
-    background-color: #303233;
-    color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    color: #f7f7f7;
 }
 
 .navbar {
@@ -20,7 +20,7 @@
 
 a, a :visited :hover {
     text-decoration: none;
-    color: white;
+    color: #f7f7f7;
 }
 
 .navbar > div {
@@ -32,7 +32,7 @@ a, a :visited :hover {
 
 
 .top-menu-outer {
-    background-color: #191A1B;
+    background-color: #008B95;
     padding: 0.5em;
     margin: 0;
 }
@@ -50,21 +50,47 @@ a, a :visited :hover {
 }
 
 .grid-stack-item {
-    background-color: dimgray;
+    background-color: #E37222;
 }
 
 .display-container {
+    margin: 1rem;
     display: grid;
     grid-template-columns: 8fr 1fr;
 }
 
 .component-menu {
-    background-color: #6E6F70;
+    background-color: #008B95;
     padding: 1em;
 }
 
 .item-values {
-    display:grid;
-    grid-template-columns: 4fr 1fr;
 
+}
+
+.component-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    padding-bottom:0.5em;
+}
+.component-label {
+    font-size:larger;
+    font-weight:600; 
+}
+
+.component-slider {
+    width:100%;
+}
+
+.component-edit {
+    padding-left: 1rem;
+    align-self:center;
+}
+    .component-edit :hover {
+        color: #008B95;
+    }
+
+.slider-label {
+    align-self:center;
+    font-size:large;
 }
