@@ -42,5 +42,18 @@
         @Html.Hidden("Label.ArduinoID", arduinoid);
         <input type="submit" value="Add Component" />
     }
+    using (Html.BeginForm("AddSimpleChart", "Dashboard", FormMethod.Post))
+    {
+        <span>Simple Chart</span>
+        <br />
+        @Html.LabelFor(m => m.Chart.ComponentName)<br />
+        @Html.EditorFor(m => m.Chart.ComponentName)<br />
+        @Html.LabelFor(m => m.Chart.XLabel)<br />
+        @Html.EditorFor(m => m.Chart.XLabel)<br />
+        @Html.LabelFor(m => m.Chart.YLabel)<br />
+        @Html.EditorFor(m => m.Chart.YLabel)<br />
+        @Html.Hidden("Chart.ArduinoID", arduinoid)
+        <input type="submit" value="Add Component" />
+    }
 }
 

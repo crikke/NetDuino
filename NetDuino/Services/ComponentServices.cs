@@ -5,6 +5,7 @@ using System.Web;
 using NetDuino.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+
 using static NetDuino.API.ArduinoApiController;
 
 namespace NetDuino.Services
@@ -63,6 +64,18 @@ namespace NetDuino.Services
             {
                 throw;
             }
+        }
+
+        public void AddValue(Component i)
+        {
+            ChartTick t = new ChartTick()
+            {
+                Time = DateTime.Now,
+                Value = 0.22,
+            };
+
+            
+            i.AddValue("Values", t);
         }
     }
 }

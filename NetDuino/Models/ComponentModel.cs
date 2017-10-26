@@ -2,11 +2,9 @@
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Web;
+using System.Runtime.Serialization;
 
 namespace NetDuino.Models
 {
@@ -35,7 +33,7 @@ namespace NetDuino.Models
         [ComponentProperty(CanEdit = true)]
         public int SliderValue { get; set; }
     }
-
+    [ComponentDisplay(ViewURI = "ButtonComponentPartial")]
     public class ButtonComponent : Component
     {
         [ComponentProperty(CanEdit = true)]
@@ -45,10 +43,45 @@ namespace NetDuino.Models
         public int ToggleValue { get; set; }
     }
 
+    [ComponentDisplay(ViewURI = "LabelComponentPartial")]
     public class LabelComponent : Component
     {
         [ComponentProperty(CanEdit = true)]
         public string LabelValue { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class ChartTick
+    {
+        public int Id { get; set; }  
+        public int ChartId { get; set; }
+        public virtual SimpleChartComponent Chart { get; set; }
+
+        [JsonProperty(Order = 10)]
+        public double Value { get; set; }
+
+        [JsonProperty(Order = 20)]
+        public DateTime Time { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn,Title="Chart")]
+    [ComponentDisplay(ViewURI = "ChartComponentPartial")]
+    public class SimpleChartComponent : Component
+    {
+        [ComponentProperty(CanEdit = true)]
+        public string YLabel { get; set; }
+        [ComponentProperty(CanEdit = true)]
+        public string XLabel { get; set; }
+
+        [JsonProperty(PropertyName ="Values")]
+        [ComponentProperty(CanEdit = true)]
+        public virtual ICollection<ChartTick> Values { get; set; }
+
+        public override Dictionary<string, object> GetValues()
+        {
+
+            return base.GetValues();
+        }
     }
 
     public abstract class Component : IDbEntry
@@ -65,7 +98,7 @@ namespace NetDuino.Models
         public int ArduinoID { get; set; }
         public virtual ArduinoModel Arduino { get; set; }
 
-        public Dictionary<string, object> GetValues()
+        public virtual Dictionary<string, object> GetValues()
         {
             var res = new Dictionary<string, object>();
 
@@ -109,6 +142,18 @@ namespace NetDuino.Models
                 return true;
             }
             return false;
+        }
+
+        public bool AddValue<T>(string key, T val)
+        {
+            var property = GetType().GetProperties().Single(x => x.Name == key);
+
+            if (property.GetType() != typeof(T))
+                return false;
+
+            var p = property as ICollection<T>;
+            p.Add(val);
+            return true;
         }
     }
 }

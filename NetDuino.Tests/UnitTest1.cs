@@ -1,14 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetDuino.Models;
+using System.Data.Entity;
 using NetDuino.API;
 using System.Web.Script.Serialization;
 using NetDuino.Controllers;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Web;
-using System.Web.Mvc;
-using static NetDuino.API.ArduinoApiController;
+using System.Security.Principal;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +19,40 @@ namespace NetDuino.Tests
         {
             TestMain.SetUser();
         }
+
+        [TestMethod]
+        public void AddValueToChart()
+        {
+            var user = TestMain.SetUser();
+            var context = new TestApplicationDbContext();
+            var controller = new DashboardController(context, null);
+
+
+             context.Arduinos.Add(new ArduinoModel()
+            {
+                Id = 1,
+                Name = "Test",
+                UserId = "0",
+                AuthKey = "auth"
+            });
+
+            var c = new SimpleChartComponent()
+            {
+                ArduinoID = 1,
+                ComponentName = "Chart",
+                Height = 1,
+                Width = 1,
+                XLabel = "X Label",
+                YLabel = "Y Label",
+                LastUpdated = DateTime.Now,
+                Id = 0,
+                Port = 0,
+                Values = new List<ChartTick>(),
+                
+            };
+            c.AddValue("Values", new ChartTick() { ChartId = 0, Id = 0, Time = DateTime.Now, Value = 2.23 });
+        }
+
 
         //[TestMethod]
         //public async Task UpdateComponent()

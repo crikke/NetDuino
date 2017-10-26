@@ -10,5 +10,6 @@ namespace NetDuino.Models
         public ButtonComponent Button { get; set; }
         public LabelComponent Label { get; set; }
         public SliderComponent Slider { get; set; }
+        public SimpleChartComponent Chart { get; set; }
     }
 }

@@ -13,11 +13,11 @@
     }
     else
     {
-        foreach (var item in Model.Arduinos)
-        {
-            <div>
-                @Html.ActionLink(item.Name,"Display", new { authkey = item.AuthKey })
-            </div>
-        }
+        <div class="dashboard-grid">
+            @foreach (var item in Model.Arduinos)
+            {
+                @Html.ActionLink(item.Name, "Display", new { authkey = item.AuthKey }, new { @class = "dashboard-block" })
+            }
+        </div>
     }
 }

@@ -39,7 +39,7 @@ namespace NetDuino.Controllers
             // display all current arduinos here.
             var userID = User.Identity.GetUserId();
             var user = await HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindByIdAsync(userID);
-            
+
             return View(user);
         }
 
@@ -100,7 +100,7 @@ namespace NetDuino.Controllers
         [HttpPost]
         public async Task<JsonResult> AddSlider(ComponentViewModel model)
         {
-            if(await componentServices.AddComponent(model.Slider, User.Identity.GetUserId()))
+            if (await componentServices.AddComponent(model.Slider, User.Identity.GetUserId()))
             {
                 return null;
             }
@@ -115,8 +115,19 @@ namespace NetDuino.Controllers
             {
                 return null;
             }
-            return null; 
-        }   
+            return null;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> AddSimpleChart(ComponentViewModel model)
+        {
+            if (await componentServices.AddComponent(model.Chart, User.Identity.GetUserId()))
+            {
+                return null;
+            }
+            return null;
+        }
 
         [Authorize]
         [HttpPost]
@@ -128,6 +139,7 @@ namespace NetDuino.Controllers
             }
             return null;
         }
+
 
         [HttpPost]
         public async Task<ActionResult> UpdatePosition(PositionViewModel model)
@@ -147,7 +159,7 @@ namespace NetDuino.Controllers
                 await ApplicationDbContext.SaveChangesAsync();
                 return null;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(500, "internal server error");
             }

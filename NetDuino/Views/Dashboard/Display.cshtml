@@ -6,17 +6,16 @@
 }
 
 
-<div class="display-container">
+<div id="display-container" dashboardId="@Model.Arduino.Id">
     <div class="grid-stack grid-stack-24">
         @foreach (var item in Model.Arduino.Components)
         {
-
             <div class="grid-stack-item"
                  data-gs-x="@item.PositionX" data-gs-y="@item.PositionY"
                  data-gs-width="@item.Width" data-gs-height="@item.Height"
                  data-component-id="@item.Id">
                 <div class="grid-stack-item-content">
-                    @Html.Action("GetComponentView", "component", new { component = item })
+                    @Html.Action("GetComponentView", "Component", new { component = item })
                 </div>
             </div>
         }
@@ -25,10 +24,11 @@
         @Html.Action("GetComponentMenu", new { Id = Model.Arduino.Id })
     </aside>
 </div>
+<script src="~/Scripts/Charts.js"></script>
 
 @section scripts
 {
-    <script>
+    <script defer>
         $(function () {
             var options = {
                 cellHeight: 'auto',

@@ -9,28 +9,33 @@
     @Styles.Render("~/Content/css")
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-    @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/gridstack.min.css" rel="stylesheet" />
     <link href="~/Content/gridstack-extra.css" rel="stylesheet" />
+    <link href="~/Scripts/c3-0.4.18/c3.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="top-menu-outer">
-        <div class="navbar">
-            <div class="navbar-header">
-                @Html.ActionLink("NetDuino", "Index", "Home", new { area = "" }, new { @class = "navbar-home" })
-            </div>
+
+    <div class="navbar">
+        <div class="navbar-header">
+            @Html.ActionLink("NetDuino", "Index", "Home", new { area = "" }, new { @class = "navbar-home" })
+        </div>
+        <div class="navbar-login">
             @Html.Partial("_LoginPartial")
         </div>
     </div>
+
     <div class="body-content">
         @RenderBody()
     </div>
 
-    @Scripts.Render("~/Scripts/jquery-3.2.1.min.js")
-    @Scripts.Render("~/Scripts/lodash.js")
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="~/Scripts/gridstack.js"></script>
-    <script src="~/Scripts/gridstack.jQueryUI.js"></script>
+    <script src="~/Scripts/lodash.js" defer></script>
+    <script src="~/Scripts/jquery-ui.js" defer></script>
+    <script src="~/Scripts/gridstack.js" defer></script>
+    <script src="~/Scripts/gridstack.jQueryUI.js" defer></script>
+    <script src="~/Scripts/d3/d3.min.js"></script>
+    <script src="~/Scripts/c3-0.4.18/c3.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
